@@ -11,11 +11,14 @@ jobs:
       - name: Check out repo
         uses: actions/checkout@v2
 
-      - name: build docker image
+      - name: build docker image Dockerfile.dev 
         run: docker build -t rngfox/frontend:latest -f Dockerfile.dev .
 
       - name: Run Test Suite
         run: docker run -e CI=true rngfox/frontend:latest npm run test -- --coverage
+
+      - name: build docker image Dockerfile.dev 
+        run: docker build -t rngfox/frontend:latest .
 
       - name: Generate Deployment Package
         run: zip -r deploy.zip * -x "**node_modules**"
