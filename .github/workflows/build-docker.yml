@@ -15,7 +15,7 @@ jobs:
         run: docker build -t rngfox/frontend:latest .
 
       - name: Run Test Suite
-        run: docker run -e CI=true jrngfox/frontend:latest npm run test -- --coverage
+        run: docker run -e CI=true rngfox/frontend:latest npm run test -- --coverage
 
       - name: Generate Deployment Package
         run: zip -r deploy.zip * -x "**node_modules**"
