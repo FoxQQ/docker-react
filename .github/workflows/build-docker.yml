@@ -12,7 +12,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: build docker image
-        run: docker build -t rngfox/frontend:latest .
+        run: docker build -t rngfox/frontend:latest -f Dockerfile.dev .
 
       - name: Run Test Suite
         run: docker run -e CI=true rngfox/frontend:latest npm run test -- --coverage
