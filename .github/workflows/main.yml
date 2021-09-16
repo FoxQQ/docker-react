@@ -53,7 +53,7 @@ jobs:
           context: ./
           file: ./Dockerfile.dev
           push: false
-          load: true
+          #load: true
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/frontend:latest
           builder: ${{ steps.buildx.outputs.name }}
           cache-from: type=local,src=/tmp/.buildx-cache
@@ -62,11 +62,11 @@ jobs:
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
         
-      - name: compose up
-        run: docker-compose up -d
+      #- name: compose up
+      #  run: docker-compose up -d
         
       - name: running containers
         run: docker ps -a
         
-      - name: compose down
-        run: docker-compose down
+      #- name: compose down
+      #  run: docker-compose down
