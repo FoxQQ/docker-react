@@ -1,0 +1,39 @@
+name: Test &Deploy
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  test-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v2
+
+      - name: build docker image
+        run: docker build -t rngfox/frontend:latest
+
+      - name: Run Test Suite
+        run: docker run -e CI=true jrngfox/frontend:latest npm run test -- --coverage
+
+      - name: Generate Deployment Package
+        run: zip -r deploy.zip * -x "**node_modules**"
+
+      - name: Get Timestamp
+        uses: gerred/actions/current-time@master
+        id: current-time
+
+      - name: Run String Replace
+        uses: frabert/replace-string-action@master
+        id: format-time
+        with:
+          pattern: '[:\.]+'
+          string: "${{ steps.current-time.outputs.time }}"
+          replace-with: "-"
+          flags: "g"
+
+      - name: Install Dependencies & Deploy to AWS
+        run: |
+          sudo npm install -g beanstalk-deploy --unsafe-perm
+          sudo AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY }} AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_ACCESS_SECRET_KEY}} beanstalk-deploy "test" "test-env" "docker-react-${{ steps.format-time.outputs.replaced }}" "us-west-2" deploy.zip
