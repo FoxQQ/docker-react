@@ -39,4 +39,4 @@ jobs:
       - name: Install Dependencies & Deploy to AWS
         run: |
           sudo npm install -g beanstalk-deploy --unsafe-perm
-          sudo AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY }} AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_ACCESS_SECRET_KEY}} beanstalk-deploy "test" "test-env" "docker-react-${{ steps.format-time.outputs.replaced }}" "us-west-2" deploy.zip
+          sudo AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY }} AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_ACCESS_SECRET_KEY}} beanstalk-deploy "my-react-app" "my-react-app-env" "docker-react-${{ steps.format-time.outputs.replaced }}" "us-west-2" deploy.zip
