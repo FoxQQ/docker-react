@@ -61,5 +61,11 @@ jobs:
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
         
+      - name: compose up
+        run: docker-compose up -d
+        
       - name: running containers
         run: docker ps -a
+        
+      - name: compose down
+        run: docker-compose down
